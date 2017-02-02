@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Firstname"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    android:orientation="horizontal"
+    <TextView
+        android:id="@+id/timeStamp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time :"
+        android:autoLink="web"
+        android:textColor="@color/colorAccent"
+        />
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lastname"
+        android:autoLink="web"
+        android:textColor="@color/colorAccent"
+        />
+
+</LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+

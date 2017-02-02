@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Channel Log Viewer</string>
+    <string name="pref_message_filter_title">Message Filter Options</string>
+    <string name="pref_network_title">Network Options</string>
+    <string name="pref_filter_trac_message">Display Trac Messages</string>
+    <string name="pref_filter_phabricator_message">Display Phabricator Messages</string>
+    <string name="hello_blank_fragment">Hello World</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="pref_auto_refresh">Auto Refresh</string>
+</resources>
