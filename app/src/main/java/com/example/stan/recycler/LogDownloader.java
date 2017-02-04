@@ -10,6 +10,9 @@
 
 package com.example.stan.recycler;
 
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -20,22 +23,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Defines a class that will get a log from irclogs.wildfiregames.com.
  * Created by Stanislas Daniel Claude Dolcini on 02/02/17.
  */
-public class LogDownloader implements Runnable {
+class LogDownloader implements Runnable {
     private final String formatedURL;
 
-    List<String> nickList;
-    List<String> timeList;
-    List<String> messageList;
-    boolean wildfireRobotEnabled,wildfireBotEnabled;
-
+    private List<String> nickList;
+    private List<String> timeList;
+    private List<String> messageList;
+    private boolean wildfireRobotEnabled,wildfireBotEnabled;
 
     /**
-     * @param formatedURL basic url string
+     *
+     * @param wildfireRobotEnabled Wether you should print WildfireRobot Messages.
+     * @param wildfireBotEnabled Wether you should print WildfireBot Messages
      */
-    public LogDownloader(String formatedURL,boolean wildfireRobotEnabled, boolean wildfireBotEnabled) {
-        this.formatedURL = formatedURL;
+    public LogDownloader(boolean wildfireRobotEnabled, boolean wildfireBotEnabled) {
+        this.formatedURL = getCurrentLogPath();
         this.nickList = new ArrayList<>();
         this.timeList = new ArrayList<>();
         this.messageList = new ArrayList<>();
@@ -44,7 +49,17 @@ public class LogDownloader implements Runnable {
     }
 
     /**
-     * @// TODO: 02/02/17 Find a way to be able to swipe down. 
+     * @return the formated URL to get the wanted log.
+     */
+    private String getCurrentLogPath() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return "http://irclogs.wildfiregames.com/" + df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log";
+    }
+
+    /**
+     * @TODO: 02/02/17 Find a way to be able to swipe down.
      * @return a list of log messages
      */
     public List<LogMessage> getLogMessages() {
@@ -71,6 +86,8 @@ public class LogDownloader implements Runnable {
                 if (message.contains("Log opened"))
                     continue;
                 else if (message.contains("has joined #0ad-dev"))
+                    continue;
+                else if (message.contains("Day changed"))
                     continue;
                 else if (message.contains("is now known as"))
                     continue;

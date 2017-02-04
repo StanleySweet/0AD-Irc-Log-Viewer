@@ -11,9 +11,6 @@
 package com.example.stan.recycler;
 
 import android.content.SharedPreferences;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -30,13 +27,13 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Created by Stanislas Daniel Claude Dolcini on 02/02/17.
+ * Defines the main activity of the application.
  */
 public class MainActivity extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private boolean autoRefresh;
+    private boolean isOnMainScreen;
 
-    ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+    ArrayList<NavItem> mNavItems = new ArrayList<>();
     private Handler mHandler;
     Runnable refresh;
 
@@ -73,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
         this.mHandler = new Handler();
         refresh = new Runnable() {
             public void run() {
-                if(autoRefresh)
+                if(autoRefresh && isOnMainScreen)
                     refreshItems();
-                mHandler.postDelayed(refresh, 5000);
+                mHandler.postDelayed(refresh, 10000);
             }
         };
         mHandler.post(refresh);
@@ -104,7 +102,14 @@ public class MainActivity extends AppCompatActivity {
 
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        catch (NullPointerException e)
+        {
+            Log.w("Error","Action bar is null" + e);
+        }
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -147,11 +152,12 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      *
-     * @param position
+     * @param position the item position
      */
     private void selectItemFromDrawer(int position) {
 
-        if (mNavItems.get(position).mTitle == "Channel Log Viewer") {
+        if ("Channel Log Viewer".equals(mNavItems.get(position).mTitle)) {
+            this.isOnMainScreen = true;
             getFragmentManager().beginTransaction()
                     .remove(new SettingsFragment())
                     .commit();
@@ -160,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.mainContent).setVisibility(LinearLayout.VISIBLE);
         }
 
-        if (mNavItems.get(position).mTitle == "Preferences") {
+        if ("Preferences".equals(mNavItems.get(position).mTitle)) {
+            this.isOnMainScreen = false;
             findViewById(R.id.container).setVisibility(LinearLayout.VISIBLE);
             getFragmentManager().beginTransaction()
                     .replace(R.id.mainContent, new SettingsFragment())
@@ -169,7 +176,8 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.mainContent).setVisibility(LinearLayout.GONE);
         }
 
-        if (mNavItems.get(position).mTitle == "About") {
+        if ("About".equals(mNavItems.get(position).mTitle)) {
+            this.isOnMainScreen = false;
             getFragmentManager().beginTransaction()
                     .remove(new SettingsFragment())
                     .commit();
@@ -216,13 +224,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        LogDownloader lg = new LogDownloader(getCurrentLogPath(), param1, param2);
+        LogDownloader lg = new LogDownloader(param1, param2);
         Thread thread = new Thread(lg);
         thread.start();
         try {
             thread.join();
 
         } catch (InterruptedException e) {
+            Log.w("Error",e);
 
         } finally {
             recyclerView.setAdapter(new LogMessageRecyclerAdapter(lg.getLogMessages()));
@@ -230,16 +239,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * @return the formated URL to get the wanted log.
-     */
-    private String getCurrentLogPath() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        final String formatedUrl = "http://irclogs.wildfiregames.com/" + df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log";
-        return formatedUrl;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
