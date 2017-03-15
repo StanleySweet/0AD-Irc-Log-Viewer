@@ -8,4 +8,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="pref_auto_refresh">Auto Refresh</string>
+    <string name="title">0 A.D. Android IRC Log Reader</string>
+    <string name="about_title">About</string>
+    <string name="author">Stanislas Daniel Claude Dolcini</string>
 </resources>

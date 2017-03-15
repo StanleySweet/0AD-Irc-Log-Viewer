@@ -9,68 +9,6 @@
         android:layout_height="match_parent"
         android:clickable="false" />
 
-    <FrameLayout
-        android:id="@+id/About"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="false"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5dp"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="About"
-                android:textSize="20pt"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12pt"
-                android:text="0 A.D. Android IRC Log Reader" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Version:"
-                android:textSize="12pt"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1.0"
-                android:textSize="12pt"
-                android:textStyle="" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12pt"
-                android:text="Created by:"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12pt"
-                android:text="Stanislas Daniel Claude Dolcini"
-                android:textStyle="italic" />
-        </LinearLayout>
-    </FrameLayout>
-
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mainContent"
@@ -95,7 +33,7 @@
                 android:scrollbarStyle="outsideOverlay"
 
                 android:scrollbars="vertical"
-                tools:context="com.example.stan.recycler.MainActivity">
+                tools:context="com.example.stan.recycler.activities.MainActivity">
 
 
             </android.support.v7.widget.RecyclerView>

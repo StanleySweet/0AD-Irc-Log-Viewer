@@ -8,7 +8,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.example.stan.recycler;
+package com.example.stan.recycler.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,13 +18,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.stan.recycler.model.NavItem;
+import com.example.stan.recycler.R;
+
 import java.util.ArrayList;
 
 /**
  * Created by Stanislas Daniel Claude Dolcini on 02/02/17.
  */
 
-class DrawerListAdapter extends BaseAdapter {
+public class DrawerListAdapter extends BaseAdapter {
 
     Context mContext;
     ArrayList<NavItem> mNavItems;
@@ -57,17 +60,17 @@ class DrawerListAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.drawer_item, null);
         }
-        else {
+        else
             view = convertView;
-        }
 
         TextView titleView = (TextView) view.findViewById(R.id.title);
-        TextView subtitleView = (TextView) view.findViewById(R.id.subTitle);
-        ImageView iconView = (ImageView) view.findViewById(R.id.icon);
+        titleView.setText( mNavItems.get(position).getmTitle() );
 
-        titleView.setText( mNavItems.get(position).mTitle );
-        subtitleView.setText( mNavItems.get(position).mSubtitle );
-        iconView.setImageResource(mNavItems.get(position).mIcon);
+        TextView subtitleView = (TextView) view.findViewById(R.id.subTitle);
+        subtitleView.setText( mNavItems.get(position).getmSubtitle() );
+
+        ImageView iconView = (ImageView) view.findViewById(R.id.icon);
+        iconView.setImageResource(mNavItems.get(position).getmIcon());
 
         return view;
     }

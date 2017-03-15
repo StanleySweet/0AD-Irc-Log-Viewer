@@ -8,19 +8,31 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.example.stan.recycler;
+package com.example.stan.recycler.fragments;
 
-/**
- * Created by Stanislas Daniel Claude Dolcini on 02/02/17.
- */
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-class NavItem {
-     String mTitle, mSubtitle;
-     int mIcon;
+import com.example.stan.recycler.R;
 
-    public NavItem(String title, String subtitle, int icon) {
-        mTitle = title;
-        mSubtitle = subtitle;
-        mIcon = icon;
+public class SettingsFragment extends Fragment {
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.container, new LogSettingsFragment())
+                .commit();
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_preferences, container, false);
     }
 }

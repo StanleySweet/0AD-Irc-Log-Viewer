@@ -8,7 +8,7 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.example.stan.recycler;
+package com.example.stan.recycler.model;
 
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
@@ -26,7 +26,7 @@ import java.util.List;
  * Defines a class that will get a log from irclogs.wildfiregames.com.
  * Created by Stanislas Daniel Claude Dolcini on 02/02/17.
  */
-class LogDownloader implements Runnable {
+public class LogDownloader implements Runnable {
     private final String formatedURL;
 
     private List<String> nickList;
@@ -59,7 +59,6 @@ class LogDownloader implements Runnable {
     }
 
     /**
-     * @TODO: 02/02/17 Find a way to be able to swipe down.
      * @return a list of log messages
      */
     public List<LogMessage> getLogMessages() {
