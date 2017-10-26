@@ -77,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        NetworkInfo activeNetworkInfo = null;
+
+        if(connectivityManager != null)
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     /**
@@ -105,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
      * Initialize the manual update functionality.
      */
     private void initSwiper() {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -122,12 +127,17 @@ public class MainActivity extends AppCompatActivity {
     private void initDrawer() {
 
         // DrawerLayout
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException e) {
-            Log.w("Error", "Action bar is null" + e);
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+
+        if(getSupportActionBar() != null)
+        {
+            try {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            } catch (NullPointerException e) {
+                Log.w("Error", "Action bar is null" + e);
+            }
         }
+
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -147,14 +157,14 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Add menu options
-        addNavItem("Channel Log Viewer", "Meetup destination", R.drawable.ic_action_home);
+        addNavItem("Channel Log Viewer", "Meet-up destination", R.drawable.ic_action_home);
         addNavItem("Preferences", "Change your preferences", R.drawable.ic_action_settings);
         addNavItem("IRC Chat", "Chat with the devs", R.drawable.ic_forum_black_24dp);
         addNavItem("About", "Get to know about us", R.drawable.ic_action_about);
 
         // Populate the Navigation Drawer with options
-        mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
-        mDrawerList = (ListView) findViewById(R.id.navList);
+        mDrawerPane =  findViewById(R.id.drawerPane);
+        mDrawerList =  findViewById(R.id.navList);
         mDrawerList.setAdapter(new DrawerListAdapter(this, mNavItems));
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -166,9 +176,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * @param itemName
-     * @param itemDescription
-     * @param itemId
+     * @param itemName Navigation item to be added
+     * @param itemDescription Item description to be added
+     * @param itemId Id of the item.
      */
     private void addNavItem(String itemName, String itemDescription, int itemId) {
         mNavItems.add(new NavItem(itemName, itemDescription, itemId));
@@ -213,12 +223,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshItems() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        PreferenceManager.getDefaultSharedPreferences(this);
-
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean wildfireRobotEnabled = false,wildfireBotEnabled = false;
+        boolean wildfireRobotEnabled = false;
+        boolean wildfireBotEnabled = false;
+        boolean alternatePath = false;
 
         for (Map.Entry<String, ?> entry : sharedPrefs.getAll().entrySet()) {
 
@@ -229,12 +239,15 @@ public class MainActivity extends AppCompatActivity {
             if ("wildfirebot enabled".equals(entry.getKey()))
                 wildfireBotEnabled = Boolean.parseBoolean(entry.getValue().toString());
 
+            if ("alternate path".equals(entry.getKey()))
+                alternatePath = Boolean.parseBoolean(entry.getValue().toString());
+
             if ("auto refresh enabled".equals(entry.getKey()))
                 this.autoRefresh = Boolean.parseBoolean(entry.getValue().toString());
         }
 
 
-        LogDownloader lg = new LogDownloader(wildfireRobotEnabled, wildfireBotEnabled);
+        LogDownloader lg = new LogDownloader(wildfireRobotEnabled, wildfireBotEnabled, alternatePath);
         Thread thread = new Thread(lg);
         thread.start();
         try {
