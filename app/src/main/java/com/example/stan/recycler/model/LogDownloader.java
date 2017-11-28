@@ -40,13 +40,14 @@ public class LogDownloader implements Runnable {
      * @param wildfireBotEnabled Wether you should print WildfireBot Messages
      */
     public LogDownloader(boolean wildfireRobotEnabled, boolean wildfireBotEnabled, boolean alternatePath) {
+        this.alternatePath = alternatePath;
         this.formatedURL = getCurrentLogPath();
         this.nickList = new ArrayList<>();
         this.timeList = new ArrayList<>();
         this.messageList = new ArrayList<>();
         this.wildfireRobotEnabled = wildfireRobotEnabled;
         this.wildfireBotEnabled = wildfireBotEnabled;
-        this.alternatePath = alternatePath;
+
     }
 
     /**
@@ -55,8 +56,9 @@ public class LogDownloader implements Runnable {
     private String getCurrentLogPath() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return alternatePath ? "http://moreirclogs.wildfiregames.com/%230ad-dev/" + df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log" : "http://irclogs.wildfiregames.com/" + df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log" ;
+        return alternatePath ? "http://moreirclogs.wildfiregames.com/" + df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log" : "http://irclogs.wildfiregames.com/" + df2.format(c.getTime())+ "/"+ df.format(c.getTime()) + "-QuakeNet-%230ad-dev.log";
     }
 
     /**
